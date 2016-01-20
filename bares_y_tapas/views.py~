@@ -1,0 +1,13 @@
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def index(request):
+	#contexto para enviar al motor de plantillas
+	contexto = {'negrita': "Soy negrita dle contexto"}
+	#Renderizamos la respuesta para el cliente
+	return render(request, 'bares_y_tapas/ndex.html', contexto)
+
+def about(request):
+	return HttpResponse("Hugo dice: Esto es el about! <br/> <a href='/bares/'>Index</a>")
+
+

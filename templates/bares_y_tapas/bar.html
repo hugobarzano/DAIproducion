@@ -1,0 +1,64 @@
+{% extends "bares_y_tapas/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Bares & Tapas {% endblock %}
+
+        {% block body_block %}
+
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        {% if bar %}
+          <h1> {{ bar_nombre }} </h3>
+            <br>
+            <hr>
+          <a href="/bares/{{bar_nombre_slug}}/add_tapa/"><button> Nueva Tapa </button></a>
+
+
+      </div>
+    </div>
+
+                  {% if tapas %}
+                    <ul class="list-group">
+                        {% for t in tapas %}
+                         <li class="list-group-item"> {{ t.nombre_tapa }} --------- Likes: {{ t.megusta }}<button class='btnMeGusta' bar:'t.nombre_bar' tapa:'t.nombre_tapa' >MeGusta </button> </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong> No hay tapas en este bar </strong>
+                {% endif %}
+        {% else %}
+        <strong>El bar {{ bar_nombre }} no existe</strong>
+        {% endif %}
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        {% load easy_maps_tags %}
+        <!-- Default map with 300x400 dimensions -->
+        {% easy_map  bar.direccion   300 300 %}
+        {% load easy_maps_tags cache %}
+        {% cache 600 my_map firm.address %}
+        {% easy_map firm.address 300 400 %}
+        {% endcache %}
+        <br>
+        <h3 class="panel-title"> {{ bar.direccion }} </h3>
+        <hr>
+        <h3 class="panel-title"> Visitas: {{ bar.visitas }} </h3>
+
+      </div>
+    </div>
+
+
+
+
+
+
+            </div>
+
+
+          </div>
+
+
+
+        {% endblock %}
