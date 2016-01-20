@@ -1,0 +1,25 @@
+- hosts: localhost
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+  - name: Actualizar sistema base
+    apt: update_cache=yes upgrade=dist 
+  - name: Instalar paquetes necesarios
+    apt: name=python-setuptools state=present
+    apt: name=build-essential state=present
+    apt: name=python-dev state=present
+    apt: name=python-pip state=present
+    apt: name=git state=present
+  - name: Install Python Pip
+    action: apt pkg=python-pip
+  - name: Obtener aplicacion de git
+    git: repo=https://github.com/hugobarzano/AplicacionDAI.git  dest=~/pruebaAnsible clone=yes force=yes
+  - name: Dar permisos de ejecucion
+    command: chmod -R +x ~/pruebaAnsible
+  - name: Instalar requisitos de la aplicacion
+    pip: requirements=~/pruebaAnsible/requirements.txt
+  - name: ejecutar
+    command: nohup sudo python ~/pruebaAnsible/manage.py runserver 0.0.0.0:80
+
+
+
