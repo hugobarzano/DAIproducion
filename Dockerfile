@@ -33,7 +33,7 @@ run apt-get install -y supervisor nginx
 run cp DAIproducion/supervisor.conf /etc/supervisor/conf.d/
 run cp  DAIproducion/nginx-default /etc/nginx/sites-available/default
 
-run sed -i 's/DEBUG = True/DEBUG= False/' practica4/settings.py
+run sed -i 's/DEBUG = True/DEBUG= False/' DAIproducion/practica4/settings.py
 
 expose 80
 
