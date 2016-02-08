@@ -14,14 +14,12 @@
     command: chmod -R +x ~/DAIproducion
   - name: Instalar docker y docker-compose
     command: sh ~/DAIproducion/deploy_docker.sh
-  - name: Descargar y construir imagenes necesarias
+  - name: Descargar imagen necesaria
     command: service docker restart
+    command: docker pull hugobarzano/daiproducion
   - name: Enrrutamiento
     command: sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 172.17.0.1:80
+    command: sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 172.17.0.2:80
+    command: sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 172.17.0.3:80
   - name: Ejecutar
-    command: sudo docker build -f ~/DAIproducion/Dockerfile -t dai --no-cache=true .
-    command: sudo docker run -t -i dai sh -c "ifconfig && cd ~/DAIproducion &&  python manage.py makemigrations --noinput && python manage.py migrate --noinput && python manage.py syncdb --noinput && sudo python manage.py runserver 0.0.0.0:80"
-
-    #command: chdir=~/osl-computer-management make docker_compose
-    #command: chdir=~/osl-computer-management docker-compose up
-    #command: chdir=~/osl-computer-management docker-compose run web
+    command: sudo docker run -t -i hugobarzano/daiproducion sh -c "ifconfig && cd /DAIproducion &&  python manage.py makemigrations --noinput && python manage.py migrate --noinput && python manage.py syncdb --noinput && sudo python manage.py runserver 0.0.0.0:80"
