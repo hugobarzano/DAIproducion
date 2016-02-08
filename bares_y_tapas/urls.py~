@@ -1,6 +1,0 @@
-from django.conf.urls import patterns, url
-from bares_y_tapas import views
-
-urlpatterns = patterns('',
-	url(r'^$', views.index, name='index'),#creo url para index y la aniado al nuevo fichero de urls de la aplicacion, asilandolas de
-	url(r'^about$', views.about, name='about'),)
