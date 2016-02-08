@@ -1,0 +1,27 @@
+- hosts: localhost
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+  - name: Actualizar sistema base
+    apt: update_cache=yes upgrade=dist
+  - name: Instalar git
+    action: apt pkg=git state=installed
+  - name: Install Python Pip
+    action: apt pkg=python-pip state=installed
+  - name: Obtener aplicacion de git
+    git: repo=https://github.com/hugobarzano/DAIproducion.git  dest=~/DAIproducion clone=yes force=yes
+  - name: Dar permisos de ejecucion
+    command: chmod -R +x ~/DAIproducion
+  - name: Instalar docker y docker-compose
+    command: sh ~/DAIproducion/deploy_docker.sh
+  - name: Descargar y construir imagenes necesarias
+    command: service docker restart
+  - name: Enrrutamiento
+    command: sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 172.17.0.1:80
+  - name: Ejecutar
+    command: sudo docker build -f ~/DAIproducion/Dockerfile -t dai --no-cache=true .
+    command: sudo docker run -t -i dai sh -c "ifconfig && cd ~/DAIproducion &&  python manage.py makemigrations --noinput && python manage.py migrate --noinput && python manage.py syncdb --noinput && sudo python manage.py runserver 0.0.0.0:80"
+
+    #command: chdir=~/osl-computer-management make docker_compose
+    #command: chdir=~/osl-computer-management docker-compose up
+    #command: chdir=~/osl-computer-management docker-compose run web
