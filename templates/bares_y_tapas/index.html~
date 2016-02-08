@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+{% load staticfiles %} <!-- New line -->
+
+<html>
+
+    <head>
+        <title>Bares y Tapas</title>
+    </head>
+
+    <body>
+        <h1>Hugo dice...</h1>
+        hello world! <strong>{{ negrita }}</strong><br />
+        <a href="/bares/about/">About</a><br />
+        <img src="{% static "images/bares.jpg" %}" alt="Picture of bar" /> <!-- New line -->
+    </body>
+
+</html>
