@@ -9,7 +9,7 @@ class MyRegistrationView(RegistrationView):
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('bares_y_tapas.urls')), #url del la aplicacion al proyecto
+    url(r'^bares/', include('bares_y_tapas.urls')), #url del la aplicacion al proyecto
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
